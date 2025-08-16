@@ -15,9 +15,9 @@ import java.time.format.DateTimeParseException;
  * Chuyển đổi LocalDate với định dạng sang chuỗi với định dạng yyyy/MM/dd.
  */
 public class LocalDateUtil {
-
+   public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+   public static DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy/MM/dd");
     public static void fromString_ddMMyyyy(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         try {
             LocalDate localDate = LocalDate.parse(date, formatter);
             System.out.println("LocalDate (dd/MM/yyyy): " + localDate);
@@ -28,9 +28,8 @@ public class LocalDateUtil {
 
 
     public static void fromString_yyyyMMdd(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         try {
-            LocalDate localDate = LocalDate.parse(date, formatter);
+            LocalDate localDate = LocalDate.parse(date, formatter1);
             System.out.println("LocalDate (yyyy/MM/dd):  " + localDate);
         } catch (DateTimeParseException e) {
             System.out.println("Sai định dạng ngày yyyy/MM/dd: " + date);

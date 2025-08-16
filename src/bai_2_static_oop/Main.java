@@ -7,9 +7,9 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         double num1, num2;
 
+        System.out.print("Nhập số thứ nhất: ");
+        num1 = sc.nextDouble();
         do {
-            System.out.print("Nhập số thứ nhất: ");
-            num1 = sc.nextDouble();
             System.out.print("Nhập số thứ hai: ");
             num2 = sc.nextDouble();
 
