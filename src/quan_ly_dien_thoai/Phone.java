@@ -2,7 +2,7 @@ package quan_ly_dien_thoai;
 
 import java.util.Scanner;
 
-public class Phone {
+public abstract class Phone {
     private String id;
     private String ten;
     private double giaBan;
@@ -87,4 +87,8 @@ public class Phone {
         System.out.println("Bảo hành: " + thoiGianBaoHanh + " tháng");
         System.out.println("Hãng: " + hangSanXuat);
     }
+
+    public abstract double tinhTongGia();
+
+
 }

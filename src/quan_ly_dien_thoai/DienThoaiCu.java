@@ -2,7 +2,7 @@ package quan_ly_dien_thoai;
 
 import java.util.Scanner;
 
-public class DienThoaiCu extends Phone {
+public class DienThoaiCu extends Phone implements KhuyenMai {
     private int tinhTrangPin;
     private String moTaThem;
 
@@ -47,5 +47,17 @@ public class DienThoaiCu extends Phone {
         super.output();
         System.out.println("Tình trạng pin(%): " + tinhTrangPin);
         System.out.println("Mô tả thêm: " + moTaThem);
+    }
+
+    @Override
+    public double tinhTongGia() {
+        return this.getGiaBan();
+    }
+
+    @Override
+    public void khuyenMai(double phanTram) {
+        // Giá mới = Giá cũ * (1 - %/100)
+        double giaMoi = this.getGiaBan() * (1 - phanTram / 100);
+        this.setGiaBan(giaMoi);
     }
 }

@@ -42,10 +42,10 @@ public class Main {
                     menuTimKiem();
                     break;
                 case 7:
-                    System.out.println("Chức năng Tính tổng tiền !");
+                    tinhTongTien();
                     break;
                 case 8:
-                    System.out.println("Chức năng Giảm giá cho điện thoại cũ!");
+                   giamGiaDienThoaiCu();
                     break;
                 case 9:
                     System.out.println("Thoát chương trình.");
@@ -89,7 +89,7 @@ public class Main {
             dt.input();
             dsDienThoai.add(dt);
         } else {
-            DienThoaiMoi dt = new DienThoaiMoi(0);
+            DienThoaiMoi dt = new DienThoaiMoi();
             dt.input();
             dsDienThoai.add(dt);
         }
@@ -217,6 +217,35 @@ public class Main {
         }
     }
 
+    public static void tinhTongTien() {
+        double tong = 0;
+        for (Phone dt : dsDienThoai) {
+            tong += dt.tinhTongGia();
+        }
+        System.out.printf("Tổng giá trị tất cả điện thoại trong cửa hàng = %,.0f VND\n", tong);
+    }
+
+
+    public static void giamGiaDienThoaiCu() {
+        System.out.print("Nhập % giảm giá cho điện thoại cũ: ");
+        double phanTram = Double.parseDouble(sc.nextLine().trim());
+        // Kiểm tra xem có điện thoại cũ nào không
+        boolean coDienThoaiCu = false;
+        for (Phone dt : dsDienThoai) {
+            if (dt instanceof KhuyenMai) {  // Kiểm tra nếu đối tượng là 1 Điện thoại cũ (có thể khuyến mãi)
+                ((KhuyenMai) dt).khuyenMai(phanTram);  // Ép kiểu về KhuyenMai và gọi hàm
+                coDienThoaiCu = true;
+            }
+        }
+
+        if (coDienThoaiCu) {
+            System.out.println("Đã áp dụng giảm giá " + phanTram + "% cho tất cả điện thoại cũ!");
+            System.out.println("--- DANH SÁCH SAU KHI GIẢM GIÁ ---");
+            xemDanhSach();
+        } else {
+            System.out.println("Không có điện thoại cũ nào trong danh sách để áp dụng giảm giá.");
+        }
+    }
 
     // Hàm nhập số chung
     public static int nhapSo(int min, int max) {
@@ -227,9 +256,8 @@ public class Main {
                 n = Integer.parseInt(input);
                 if (n >= min && n <= max) {
                     return n;
-                } else {
-                    System.out.print("Giá trị không hợp lệ! Nhập lại (" + min + "-" + max + "): ");
                 }
+                System.out.print("Giá trị không hợp lệ! Nhập lại (" + min + "-" + max + "): ");
             } catch (NumberFormatException e) {
                 System.out.print("Không hợp lệ! Vui lòng nhập số từ " + min + " đến " + max + ": ");
             }

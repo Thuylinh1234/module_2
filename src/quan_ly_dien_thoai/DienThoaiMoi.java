@@ -5,9 +5,10 @@ import java.util.Scanner;
 public class DienThoaiMoi extends Phone {
     private int soLuong;
 
-    public DienThoaiMoi(int soLuong) {
-        this.soLuong = soLuong;
+    public DienThoaiMoi() {
+        super();
     }
+
 
     public DienThoaiMoi(String id, String ten, double giaBan, int thoiGianBaoHanh, String hangSanXuat, int soLuong) {
         super(id, ten, giaBan, thoiGianBaoHanh, hangSanXuat);
@@ -26,13 +27,19 @@ public class DienThoaiMoi extends Phone {
         super.input();
 
         Scanner sc = new Scanner(System.in);
-
         System.out.println("Nhập số lượng: ");
-        soLuong = sc.nextInt();
+        soLuong = Integer.parseInt(sc.nextLine());
     }
 
     public void output() {
         super.output();
         System.out.println("Số lượng: " + soLuong);
     }
+
+    @Override
+    public double tinhTongGia() {
+        // Đối với điện thoại mới, tổng giá trị = giá bán * số lượng
+        return this.getGiaBan() * this.getSoLuong();
+    }
+
 }
