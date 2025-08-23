@@ -229,8 +229,7 @@ public class Main {
     public static void giamGiaDienThoaiCu() {
         System.out.print("Nhập % giảm giá cho điện thoại cũ: ");
         double phanTram = Double.parseDouble(sc.nextLine().trim());
-        // Kiểm tra xem có điện thoại cũ nào không
-        boolean coDienThoaiCu = false;
+        boolean coDienThoaiCu = false; // Kiểm tra xem có điện thoại cũ nào không
         for (Phone dt : dsDienThoai) {
             if (dt instanceof KhuyenMai) {  // Kiểm tra nếu đối tượng là 1 Điện thoại cũ (có thể khuyến mãi)
                 ((KhuyenMai) dt).khuyenMai(phanTram);  // Ép kiểu về KhuyenMai và gọi hàm
@@ -240,7 +239,7 @@ public class Main {
 
         if (coDienThoaiCu) {
             System.out.println("Đã áp dụng giảm giá " + phanTram + "% cho tất cả điện thoại cũ!");
-            System.out.println("--- DANH SÁCH SAU KHI GIẢM GIÁ ---");
+            System.out.println(" DANH SÁCH SAU KHI GIẢM GIÁ ");
             xemDanhSach();
         } else {
             System.out.println("Không có điện thoại cũ nào trong danh sách để áp dụng giảm giá.");
