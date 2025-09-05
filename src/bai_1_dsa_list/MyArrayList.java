@@ -15,7 +15,7 @@ package bai_1_dsa_list;
 public class MyArrayList {
     private int capacity;   // kích thước thực tế (Không cho người dùng biết)
     private int[] elementData;      // Mảng lưu dữ liệu
-    private int size;       // số phần thử add vào (Cho người dùng thấy)
+    private int size;       // số phần tử add vào (Cho người dùng thấy)
 
     private int[] emptyArray = {};  // tái sử dụng nhiều lần
 
@@ -24,71 +24,115 @@ public class MyArrayList {
     }
 
     public MyArrayList() {
-        emptyArray = elementData;
+        elementData = emptyArray;
         capacity = 10;
     }
 
-    // a. add(int element): Thêm phần tử vào cuối
-    public void add(int element) {
-        // trường hợp 1: size == capacity
-        if (elementData == emptyArray) {
-            capacity = 10;
-            elementData = new int[capacity];
-        }
-
+    // Hàm tự viết để tăng capacity khi cần
+    private void ensureCapacity() {
         if (size == capacity) {
-            // tránh trươờng hợp 0
             if (capacity == 0) {
                 capacity = 1;
             } else if (capacity == 1) {
                 capacity = 2;
             } else {
-                // tạo ra mảng mới gấp 50%
                 capacity = (int) (capacity * 1.5);
             }
-//            if (capacity == size) { // tránh trường hợp capacity = 0,1
-//                capacity++;
-//            }
-            int[] temp = new int[capacity];
-
-            // đổ dữ liệu qua mảng mới
-            for (int i = 0; i < elementData.length; i++) {
-                temp[i] = elementData[i];
+            int[] newArr = new int[capacity];
+            for (int i = 0; i < size; i++) {
+                newArr[i] = elementData[i];
             }
-
-            // tham chiếu tới vùng nhớ mới
-            elementData = temp;
-
-            // trường hợp 2: size < capacity
-            elementData[size] = element;
-            size++;
+            elementData = newArr;
         }
-
     }
 
-    //b. toString (): Trả về thông tin đối tượng
+    // a. add(int element): Thêm phần tử vào cuối
+    public void add(int element) {
+        if (elementData == emptyArray) {
+            elementData = new int[capacity];
+        }
+        ensureCapacity();
+        elementData[size] = element;
+        size++;
+    }
+
+    // b. toString (): Trả về thông tin đối tượng
     @Override
     public String toString() {
-
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < size; i++) {
             stringBuilder.append(elementData[i]).append("\t");
         }
         return stringBuilder.toString();
-
-//        if (size == 0) {
-//            return "[]";
-//        }
-//        StringBuilder sb = new StringBuilder("[");
-//        for (int i = 0; i < size; i++) {
-//            sb.append(elementData[i]);
-//            if (i < size - 1) {
-//                sb.append(", ");
-//            }
-//        }
-//        sb.append("]");
-//        return sb.toString();
     }
 
-    //c. add (int index, int element): Thêm phần tử vào vị trí index
+    // c. add (int index, int element): Thêm phần tử vào vị trí index
+    public void add(int index, int element) {
+        if (index < 0 || index > size) {
+            System.out.println("Index không hợp lệ");
+            return;
+        }
+        ensureCapacity();
+        for (int i = size; i > index; i--) {
+            elementData[i] = elementData[i - 1];
+        }
+        elementData[index] = element;
+        size++;
+    }
+    //d. set (int index, int element): Thay thế phần tử tại vị trí index
+    public void set(int index, int element) {
+        if (index < 0 || index >= size) {
+            System.out.println("Index không hợp lệ!");
+            return;
+        }
+        elementData[index] = element;
+    }
+
+    //e. get (int index): Trả về phần tử tại index
+    public int get(int index) {
+        if (index < 0 || index >= size) {
+            System.out.println("Index không hợp lệ!");
+            return -1;
+        }
+        return elementData[index];
+    }
+    //f. indexOf (int element): Lấy vị trí index phần tử đầu tiên tìm thấy
+    public int indexOf(int element) {
+        for (int i = 0; i < size; i++) {
+            if (elementData[i] == element) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    //g. lastIndexOf (int element o): Lấy vị trí index phần tử cuối cùng tìm thấy
+    public int lastIndexOf(int element) {
+        for (int i = size - 1; i >= 0; i--) {
+            if (elementData[i] == element) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    //h. remove (int index): Xóa phần tử lại vị trí index
+    public void remove(int index) {
+        if (index < 0 || index >= size) {
+            System.out.println("Index không hợp lệ");
+            return;
+        }
+        for (int i = index; i < size - 1; i++) {
+            elementData[i] = elementData[i + 1];
+        }
+        size--;
+    }
+    //i. removeElement (int element): Xóa tất cả phần tử element
+    public void removeElement(int element) {
+        int newS = 0;
+        for (int i = 0; i < size; i++) {
+            if (elementData[i] != element) {
+                elementData[newS++] = elementData[i];
+            }
+        }
+        size = newS;
+    }
 }

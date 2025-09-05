@@ -2,21 +2,28 @@ package bai_1_dsa_list;
 
 public class Main {
     public static void main(String[] args) {
-        MyArrayList myArrayList = new MyArrayList();
+        MyArrayList list = new MyArrayList();
+        list.add(10);
+        list.add(20);
+        list.add(30);
+        list.add(20);
 
-        myArrayList.add(10);
-        myArrayList.add(20);
-        myArrayList.add(30);
-        myArrayList.add(40);
-        myArrayList.add(50);
-        myArrayList.add(60);
-        myArrayList.add(70);
-        myArrayList.add(80);
-        myArrayList.add(90);
-        myArrayList.add(100);
-        myArrayList.add(101);
+        System.out.println(list); // [10, 20, 30, 20]
 
-        System.out.println(myArrayList);
-        System.out.println(myArrayList.size());
+        list.add(1, 15);
+        System.out.println(list); // [10, 15, 20, 30, 20]
+
+        list.set(2, 25);
+        System.out.println(list); // [10, 15, 25, 30, 20]
+
+        System.out.println("get(3): " + list.get(3)); // 30
+        System.out.println("indexOf(20): " + list.indexOf(20)); // 4
+        System.out.println("lastIndexOf(20): " + list.lastIndexOf(20)); // 4
+
+        list.remove(1);
+        System.out.println(list); // [10, 25, 30, 20]
+
+        list.removeElement(20);
+        System.out.println(list); // [10, 25, 30]
     }
 }
