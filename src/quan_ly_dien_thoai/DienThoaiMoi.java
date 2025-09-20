@@ -5,41 +5,33 @@ import java.util.Scanner;
 public class DienThoaiMoi extends Phone {
     private int soLuong;
 
-    public DienThoaiMoi() {
-        super();
-    }
-
-
-    public DienThoaiMoi(String id, String ten, double giaBan, int thoiGianBaoHanh, String hangSanXuat, int soLuong) {
-        super(id, ten, giaBan, thoiGianBaoHanh, hangSanXuat);
-        this.soLuong = soLuong;
-    }
-
-    public int getSoLuong() {
-        return soLuong;
-    }
-
-    public void setSoLuong(int soLuong) {
-        this.soLuong = soLuong;
-    }
-
-    public void input() {
-        super.input();
-
+    @Override
+    public void input() throws EmptyFieldException, NegativeNumberException {
+        try {
+            super.input();
+        } catch (MinLengthException e) {
+            throw new RuntimeException(e);
+        }
         Scanner sc = new Scanner(System.in);
-        System.out.println("Nhập số lượng: ");
-        soLuong = Integer.parseInt(sc.nextLine());
-    }
 
-    public void output() {
-        super.output();
-        System.out.println("Số lượng: " + soLuong);
+        try {
+            System.out.print("Nhập số lượng: ");
+            String slStr = sc.nextLine().trim();
+            if (slStr.isEmpty()) {
+                throw new EmptyFieldException("Số lượng không được để trống");
+            }
+            soLuong = Integer.parseInt(slStr);
+            if (soLuong < 0) {
+                throw new NegativeNumberException("Số lượng không được âm");
+            }
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Số lượng phải là số!");
+        }
     }
 
     @Override
-    public double tinhTongGia() {
-        // Đối với điện thoại mới, tổng giá trị = giá bán * số lượng
-        return this.getGiaBan() * this.getSoLuong();
+    public void display() {
+        super.display();
+        System.out.println("Số lượng: " + soLuong);
     }
-
 }

@@ -1,6 +1,6 @@
 package bai_1_xay_dung_stack;
 
-public class Main_Array { public static void main(String[] args) {
+public class MainArray { public static void main(String[] args) {
     MyStackArray<Integer> stack = new MyStackArray<>();
 
     stack.push(10);

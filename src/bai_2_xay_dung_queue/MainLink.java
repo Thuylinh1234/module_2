@@ -1,9 +1,6 @@
 package bai_2_xay_dung_queue;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
-public class Main_Link {
+public class MainLink {
     public static void main(String[] args) {
         MyQueueLink<Integer> q = new MyQueueLink<>();
 

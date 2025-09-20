@@ -2,93 +2,49 @@ package quan_ly_dien_thoai;
 
 import java.util.Scanner;
 
-public abstract class Phone {
-    private String id;
-    private String ten;
-    private double giaBan;
-    private int thoiGianBaoHanh;
-    private String hangSanXuat;
+public class Phone {
+    protected String ten;
+    protected double gia;
+    protected int thoiGianBaoHanh;
 
-    public Phone() {
-
-    }
-
-    public Phone(String id, String ten, double giaBan, int thoiGianBaoHanh, String hangSanXuat) {
-        this.id = id;
-        this.ten = ten;
-        this.giaBan = giaBan;
-        this.thoiGianBaoHanh = thoiGianBaoHanh;
-        this.hangSanXuat = hangSanXuat;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getTen() {
-        return ten;
-    }
-
-    public void setTen(String ten) {
-        this.ten = ten;
-    }
-
-    public double getGiaBan() {
-        return giaBan;
-    }
-
-    public void setGiaBan(double giaBan) {
-        this.giaBan = giaBan;
-    }
-
-    public int getThoiGianBaoHanh() {
-        return thoiGianBaoHanh;
-    }
-
-    public void setThoiGianBaoHanh(int thoiGianBaoHanh) {
-        this.thoiGianBaoHanh = thoiGianBaoHanh;
-    }
-
-    public String getHangSanXuat() {
-        return hangSanXuat;
-    }
-
-    public void setHangSanXuat(String hangSanXuat) {
-        this.hangSanXuat = hangSanXuat;
-    }
-
-    public void input() {
+    public void input() throws EmptyFieldException, NegativeNumberException, MinLengthException {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("ID: ");
-        id = sc.nextLine();
+        try {
+            System.out.print("Nhập tên điện thoại: ");
+            ten = sc.nextLine().trim();
+            if (ten.isEmpty()) {
+                throw new EmptyFieldException("Tên điện thoại không được để trống");
+            }
 
-        System.out.print("Tên điện thoại: ");
-        ten = sc.nextLine();
+            System.out.print("Nhập giá: ");
+            String giaStr = sc.nextLine().trim();
+            if (giaStr.isEmpty()) {
+                throw new EmptyFieldException("Giá không được để trống");
+            }
+            gia = Double.parseDouble(giaStr);
+            if (gia < 0) {
+                throw new NegativeNumberException("Giá không được âm");
+            }
 
-        System.out.print("Giá bán: ");
-        giaBan = Double.parseDouble(sc.nextLine());
+            System.out.print("Nhập thời gian bảo hành (tháng): ");
+            String tgStr = sc.nextLine().trim();
+            if (tgStr.isEmpty()) {
+                throw new EmptyFieldException("Thời gian bảo hành không được để trống");
+            }
+            thoiGianBaoHanh = Integer.parseInt(tgStr);
+            if (thoiGianBaoHanh < 0) {
+                throw new NegativeNumberException("Thời gian bảo hành không được âm");
+            }
 
-        System.out.print("Thời gian bảo hành (tháng): ");
-        thoiGianBaoHanh = Integer.parseInt(sc.nextLine());
-
-        System.out.print("Hãng sản xuất: ");
-        hangSanXuat = sc.nextLine();
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Giá và thời gian bảo hành phải là số!");
+        }
     }
 
-    public void output() {
-        System.out.println("ID: " + id);
+    public void display() {
         System.out.println("Tên: " + ten);
-        System.out.println("Giá: " + giaBan);
+        System.out.println("Giá: " + gia);
         System.out.println("Bảo hành: " + thoiGianBaoHanh + " tháng");
-        System.out.println("Hãng: " + hangSanXuat);
     }
-
-    public abstract double tinhTongGia();
-
-
 }
