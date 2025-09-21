@@ -5,51 +5,48 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ */
 public class Baitap2 {
-    public static void demSoLanXuatHien(String text) {
-        Map<String, Integer> wordCount = new HashMap<>();
-
-        // Chia chuỗi theo khoảng trắng và loại bỏ dấu câu đơn giản
-        String[] words = text.toLowerCase().replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+");
+    // a. Đếm số lần xuất hiện của từ trong văn bản
+    public static void demSoLanTu(String text) {
+        String[] words = text.split("\\s+"); // tách từ theo khoảng trắng
+        Map<String, Integer> map = new HashMap<>();
 
         for (String word : words) {
-            if (!word.isEmpty()) {
-                wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
+            if (map.containsKey(word)) {
+                map.put(word, map.get(word) + 1); // đã có thì tăng thêm 1
+            } else {
+                map.put(word, 1); // chưa có thì gán bằng 1
             }
         }
 
-        System.out.println("Kết quả đếm từ:");
-        for (Map.Entry<String, Integer> entry : wordCount.entrySet()) {
+        System.out.println("Số lần xuất hiện của từng từ:");
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
     }
 
     // b. Kiểm tra tính duy nhất của tên
-    public static void kiemTraTen(List<String> names) {
-        Map<String, Integer> nameCount = new HashMap<>();
+    public static void kiemTraTen(String[] names) {
+        Map<String, Integer> map = new HashMap<>();
 
         for (String name : names) {
-            nameCount.put(name, nameCount.getOrDefault(name, 0) + 1);
+            if (map.containsKey(name)) {
+                map.put(name, map.get(name) + 1);
+            } else {
+                map.put(name, 1);
+            }
         }
 
-        System.out.println("Kết quả kiểm tra tên:");
-        for (Map.Entry<String, Integer> entry : nameCount.entrySet()) {
+        System.out.println("Kết quả kiểm tra tính duy nhất:");
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
             if (entry.getValue() == 1) {
-                System.out.println(entry.getKey() + " là duy nhất");
+                System.out.println(entry.getKey() + " là tên duy nhất");
             } else {
                 System.out.println(entry.getKey() + " xuất hiện " + entry.getValue() + " lần");
             }
         }
-    }
-    public static void main(String[] args) {
-        // a. Test đếm từ
-        String text = "Java is fun and Java is powerful. Fun fun fun!";
-        demSoLanXuatHien(text);
-
-        System.out.println();
-
-        // b. Test kiểm tra tên
-        List<String> names = Arrays.asList("An", "Bình", "An", "Lan", "Bình", "Mai");
-        kiemTraTen(names);
     }
 }

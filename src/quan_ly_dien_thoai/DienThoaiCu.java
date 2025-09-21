@@ -2,9 +2,36 @@ package quan_ly_dien_thoai;
 
 import java.util.Scanner;
 
-public abstract class DienThoaiCu extends Phone {
+public class DienThoaiCu extends Phone implements KhuyenMai {
     private int tinhTrangPin;   // từ 0 - 100
     private String moTaThem;
+
+    public DienThoaiCu() {
+
+    }
+
+
+    public DienThoaiCu(String id, String ten, double gia, int thoiGianBaoHanh, String hangSanXuat, int tinhTrangPin, String moTaThem) {
+        super(id, ten, gia, thoiGianBaoHanh, hangSanXuat);
+        this.tinhTrangPin = tinhTrangPin;
+        this.moTaThem = moTaThem;
+    }
+
+    public int getTinhTrangPin() {
+        return tinhTrangPin;
+    }
+
+    public void setTinhTrangPin(int tinhTrangPin) {
+        this.tinhTrangPin = tinhTrangPin;
+    }
+
+    public String getMoTaThem() {
+        return moTaThem;
+    }
+
+    public void setMoTaThem(String moTaThem) {
+        this.moTaThem = moTaThem;
+    }
 
     @Override
     public void input() throws EmptyFieldException, MinLengthException {
@@ -44,9 +71,14 @@ public abstract class DienThoaiCu extends Phone {
     }
 
     @Override
-    public void display() {
-        super.display();
+    public void output() {
+        super.output();
         System.out.println("Tình trạng pin: " + tinhTrangPin + "%");
         System.out.println("Mô tả thêm: " + moTaThem);
+    }
+    @Override
+    public void khuyenMai(double phanTram) {
+        double giaMoi = getGia() * (1 - phanTram / 100);
+        setGia(giaMoi);
     }
 }

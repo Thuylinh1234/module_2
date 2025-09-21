@@ -18,46 +18,53 @@ import java.util.Set;
  * Viết một chương trình nhận vào một mảng số nguyên và sử dụng Set để tìm phần tử lớn nhất và nhỏ nhất trong mảng.
  */
 public class Baitap1 {
-    public static void main(String[] args) {
-        // a. Loại bỏ các phần tử trùng lặp
-        int[] arr1 = {1, 2, 3, 2, 4, 1, 5};
-        Set<Integer> uniqueSet = new HashSet<>();
-        for (int num : arr1) {
-            uniqueSet.add(num);
+    // a. Loại bỏ các phần tử trùng lặp
+    public static void removeDuplicates(int[] arr) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : arr) {
+            set.add(num);
         }
-        System.out.println("a. Các phần tử duy nhất: " + uniqueSet);
+        System.out.println("Các phần tử duy nhất: " + set);
+    }
 
-        // b. Tính tổng của các phần tử không trùng lặp
-        int[] arr2 = {1, 2, 2, 3, 4, 4, 5};
-        Set<Integer> sumSet = new HashSet<>();
+    // b. Tính tổng các phần tử không trùng lặp
+    public static void sumUnique(int[] arr) {
+        Set<Integer> set = new HashSet<>();
         int sum = 0;
-        for (int num : arr2) {
-            sumSet.add(num);
+        for (int num : arr) {
+            // Chỉ cộng nếu chưa có trong set
+            if (set.add(num)) {
+                sum += num;
+            }
         }
-        for (int num : sumSet) {
-            sum += num;
-        }
-        System.out.println("b. Tổng các phần tử không trùng lặp: " + sum);
+        System.out.println("Tổng các phần tử không trùng lặp: " + sum);
+    }
 
-        // c. Tìm các phần tử chung trong hai mảng
-        int[] arr3 = {1, 2, 3, 4, 5};
-        int[] arr4 = {3, 4, 5, 6, 7};
+    // c. Tìm phần tử chung giữa 2 mảng
+    public static void findCommonElements(int[] arr1, int[] arr2) {
         Set<Integer> set1 = new HashSet<>();
         Set<Integer> set2 = new HashSet<>();
-        for (int num : arr3) set1.add(num);
-        for (int num : arr4) set2.add(num);
 
-        set1.retainAll(set2); // giữ lại phần tử chung
-        System.out.println("c. Các phần tử chung: " + set1);
+        for (int num : arr1) set1.add(num);
+        for (int num : arr2) set2.add(num);
 
-        // d. Tìm phần tử lớn nhất và nhỏ nhất
-        int[] arr5 = {10, 3, 25, 7, 15};
-        Set<Integer> minMaxSet = new HashSet<>();
-        for (int num : arr5) {
-            minMaxSet.add(num);
+        // Giao giữa 2 set
+        set1.retainAll(set2);
+
+        System.out.println("Các phần tử chung: " + set1);
+    }
+
+    // d. Tìm phần tử lớn nhất và nhỏ nhất
+    public static void findMinMax(int[] arr) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : arr) {
+            set.add(num);
         }
-        int min = Collections.min(minMaxSet);
-        int max = Collections.max(minMaxSet);
-        System.out.println("d. Min = " + min + ", Max = " + max);
+
+        int min = Collections.min(set);
+        int max = Collections.max(set);
+
+        System.out.println("Phần tử nhỏ nhất: " + min);
+        System.out.println("Phần tử lớn nhất: " + max);
     }
 }

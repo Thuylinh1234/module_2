@@ -5,16 +5,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    // Dùng 1 ArrayList chung
     static ArrayList<Phone> dsDienThoai = new ArrayList<>();
-
-    static {
-        dsDienThoai.add(new DienThoaiCu("DTC001", "iPhone 8", 3500000, 6, "Apple", 90, "Máy đẹp, ít xước"));
-        dsDienThoai.add(new DienThoaiCu("DTC002", "iPhone 15", 4000000, 12, "Apple", 98, "Máy đẹp còn nguyên"));
-        dsDienThoai.add(new DienThoaiMoi("DTM003", "iPhone 15", 25000000, 12, "Apple", 5));
-        dsDienThoai.add(new DienThoaiMoi("DTM004", "iPhone 16", 45000000, 12, "Apple", 5));
-    }
-
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -22,34 +13,43 @@ public class Main {
         do {
             menuChinh();
             choice = nhapSo(1, 9);
-            switch (choice) {
-                case 1:
-                    xemDanhSach();
-                    break;
-                case 2:
-                    themMoi();
-                    break;
-                case 3:
-                    capNhat();
-                    break;
-                case 4:
-                    xoa();
-                    break;
-                case 5:
-                    menuSapXep();
-                    break;
-                case 6:
-                    menuTimKiem();
-                    break;
-                case 7:
-                    tinhTongTien();
-                    break;
-                case 8:
-                   giamGiaDienThoaiCu();
-                    break;
-                case 9:
-                    System.out.println("Thoát chương trình.");
-                    break;
+            try {
+                switch (choice) {
+                    case 1:
+                        xemDanhSach();
+                        break;
+                    case 2:
+                        themMoi();
+                        break;
+                    case 3:
+                        capNhat();
+                        break;
+                    case 4:
+                        xoa();
+                        break;
+                    case 5:
+                        menuSapXep();
+                        break;
+                    case 6:
+                        menuTimKiem();
+                        break;
+                    case 7:
+                        tinhTongTien();
+                        break;
+                    case 8:
+                        giamGiaDienThoaiCu();
+                        break;
+                    case 9:
+                        System.out.println("Thoát chương trình.");
+                        break;
+                }
+            } catch (EmptyFieldException | NegativeNumberException |
+                     MinLengthException | NumberOutOfRangeException e) {
+                System.out.println("Lỗi: " + e.getMessage());
+            } catch (NumberFormatException e) {
+                System.out.println("Lỗi nhập liệu: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Ứng dụng gặp một số lỗi không mong muốn, xin vui lòng thử lại các chức năng.");
             }
         } while (choice != 9);
     }
@@ -71,13 +71,19 @@ public class Main {
     // ======= Xem danh sách =======
     public static void xemDanhSach() {
         System.out.println("\n--- DANH SÁCH ĐIỆN THOẠI ---");
+        if (dsDienThoai.isEmpty()) {
+            System.out.println("Danh sách trống.");
+            return;
+        }
         for (Phone dt : dsDienThoai) {
             dt.output();
+            System.out.println("----------------------");
         }
     }
 
     // ======= Thêm mới =======
-    public static void themMoi() {
+    public static void themMoi() throws EmptyFieldException, NegativeNumberException,
+            MinLengthException, NumberOutOfRangeException {
         System.out.println("\n--- THÊM MỚI ---");
         System.out.println("1. Thêm điện thoại cũ");
         System.out.println("2. Thêm điện thoại mới");
@@ -96,8 +102,9 @@ public class Main {
         System.out.println("Đã thêm mới thành công!");
     }
 
-    // ======= Cập nhật =======
-    public static void capNhat() {
+    // Cập nhật
+    public static void capNhat() throws EmptyFieldException, NegativeNumberException,
+            MinLengthException, NumberOutOfRangeException {
         System.out.print("Nhập ID cần cập nhật: ");
         String id = sc.nextLine().trim();
 
@@ -114,7 +121,7 @@ public class Main {
         System.out.println("Không tìm thấy ID!");
     }
 
-    // ======= Xóa =======
+    // Xóa =
     public static void xoa() {
         System.out.print("Nhập ID cần xóa: ");
         String id = sc.nextLine().trim();
@@ -133,7 +140,7 @@ public class Main {
         System.out.println("Không tìm thấy ID!");
     }
 
-    // ======= Sắp xếp =======
+    //  Sắp xếp
     public static void menuSapXep() {
         System.out.println("\n--- SẮP XẾP THEO GIÁ ---");
         System.out.println("1. Tăng dần");
@@ -141,11 +148,10 @@ public class Main {
         System.out.print("Chọn: ");
         int choice = nhapSo(1, 2);
 
-        // Interchange Sort
         for (int i = 0; i < dsDienThoai.size() - 1; i++) {
             for (int j = i + 1; j < dsDienThoai.size(); j++) {
-                if ((choice == 1 && dsDienThoai.get(i).getGiaBan() > dsDienThoai.get(j).getGiaBan()) ||
-                        (choice == 2 && dsDienThoai.get(i).getGiaBan() < dsDienThoai.get(j).getGiaBan())) {
+                if ((choice == 1 && dsDienThoai.get(i).getGia() > dsDienThoai.get(j).getGia()) ||
+                        (choice == 2 && dsDienThoai.get(i).getGia() < dsDienThoai.get(j).getGia())) {
                     Phone tmp = dsDienThoai.get(i);
                     dsDienThoai.set(i, dsDienThoai.get(j));
                     dsDienThoai.set(j, tmp);
@@ -156,7 +162,7 @@ public class Main {
         xemDanhSach();
     }
 
-    // ======= Tìm kiếm =======
+    // Tìm kiếm
     public static void menuTimKiem() {
         int choice;
         do {
@@ -169,29 +175,28 @@ public class Main {
             choice = nhapSo(1, 4);
 
             switch (choice) {
-                case 1:
-                    timTheoGia();
-                    break;
-                case 2:
-                    timTheoTen();
-                    break;
-                case 3:
-                    timTheoHang();
-                    break;
+                case 1 -> timTheoGia();
+                case 2 -> timTheoTen();
+                case 3 -> timTheoHang();
             }
         } while (choice != 4);
     }
 
     public static void timTheoGia() {
-        System.out.print("Nhập giá min: ");
-        long min = Long.parseLong(sc.nextLine().trim());
-        System.out.print("Nhập giá max: ");
-        long max = Long.parseLong(sc.nextLine().trim());
+        try {
+            System.out.print("Nhập giá min: ");
+            long min = Long.parseLong(sc.nextLine().trim());
+            System.out.print("Nhập giá max: ");
+            long max = Long.parseLong(sc.nextLine().trim());
 
-        for (Phone dt : dsDienThoai) {
-            if (dt.getGiaBan() >= min && dt.getGiaBan() <= max) {
-                dt.output();
+            for (Phone dt : dsDienThoai) {
+                if (dt.getGia() >= min && dt.getGia() <= max) {
+                    dt.output();
+                    System.out.println("----------------------");
+                }
             }
+        } catch (NumberFormatException e) {
+            System.out.println("Lỗi nhập liệu: Giá phải là số!");
         }
     }
 
@@ -202,6 +207,7 @@ public class Main {
         for (Phone dt : dsDienThoai) {
             if (dt.getTen().toLowerCase().contains(keyword)) {
                 dt.output();
+                System.out.println("----------------------");
             }
         }
     }
@@ -213,36 +219,41 @@ public class Main {
         for (Phone dt : dsDienThoai) {
             if (dt.getHangSanXuat().toLowerCase().contains(hang)) {
                 dt.output();
+                System.out.println("----------------------");
             }
         }
     }
 
+    // ======= Tính tổng =======
     public static void tinhTongTien() {
         double tong = 0;
         for (Phone dt : dsDienThoai) {
-            tong += dt.tinhTongGia();
+            tong += dt.getGia();
         }
         System.out.printf("Tổng giá trị tất cả điện thoại trong cửa hàng = %,.0f VND\n", tong);
     }
 
-
+    // ======= Giảm giá =======
     public static void giamGiaDienThoaiCu() {
-        System.out.print("Nhập % giảm giá cho điện thoại cũ: ");
-        double phanTram = Double.parseDouble(sc.nextLine().trim());
-        boolean coDienThoaiCu = false; // Kiểm tra xem có điện thoại cũ nào không
-        for (Phone dt : dsDienThoai) {
-            if (dt instanceof KhuyenMai) {  // Kiểm tra nếu đối tượng là 1 Điện thoại cũ (có thể khuyến mãi)
-                ((KhuyenMai) dt).khuyenMai(phanTram);  // Ép kiểu về KhuyenMai và gọi hàm
-                coDienThoaiCu = true;
+        try {
+            System.out.print("Nhập % giảm giá cho điện thoại cũ: ");
+            double phanTram = Double.parseDouble(sc.nextLine().trim());
+            boolean coDienThoaiCu = false;
+            for (Phone dt : dsDienThoai) {
+                if (dt instanceof KhuyenMai) {
+                    ((KhuyenMai) dt).khuyenMai(phanTram);
+                    coDienThoaiCu = true;
+                }
             }
-        }
 
-        if (coDienThoaiCu) {
-            System.out.println("Đã áp dụng giảm giá " + phanTram + "% cho tất cả điện thoại cũ!");
-            System.out.println(" DANH SÁCH SAU KHI GIẢM GIÁ ");
-            xemDanhSach();
-        } else {
-            System.out.println("Không có điện thoại cũ nào trong danh sách để áp dụng giảm giá.");
+            if (coDienThoaiCu) {
+                System.out.println("Đã áp dụng giảm giá " + phanTram + "% cho tất cả điện thoại cũ!");
+                xemDanhSach();
+            } else {
+                System.out.println("Không có điện thoại cũ nào trong danh sách để áp dụng giảm giá.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Lỗi nhập liệu: % giảm giá phải là số!");
         }
     }
 
@@ -262,5 +273,4 @@ public class Main {
             }
         }
     }
-
 }
