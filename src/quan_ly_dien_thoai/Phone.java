@@ -64,6 +64,11 @@ public abstract class Phone {
         Scanner sc = new Scanner(System.in);
 
         try {
+            System.out.print("Nhập ID: ");
+            id = sc.nextLine().trim();
+            if (id.isEmpty()) {
+                throw new EmptyFieldException("ID không được để trống");
+            }
             System.out.print("Nhập tên điện thoại: ");
             ten = sc.nextLine().trim();
             if (ten.isEmpty()) {
@@ -88,6 +93,11 @@ public abstract class Phone {
             thoiGianBaoHanh = Integer.parseInt(tgStr);
             if (thoiGianBaoHanh < 0) {
                 throw new NegativeNumberException("Thời gian bảo hành không được âm");
+            }
+            System.out.print("Nhập hãng sản xuất: ");
+            hangSanXuat = sc.nextLine().trim();
+            if (hangSanXuat.isEmpty()) {
+                throw new EmptyFieldException("Hãng SX không được để trống");
             }
 
         } catch (NumberFormatException e) {
